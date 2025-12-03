@@ -262,3 +262,4 @@ What is the Digital Brain of Brain/MINDS 2.0
 * [International Brain Initiative (IBI)](https://www.internationalbraininitiative.org)
 * [Union of Brain Science Associations in Japan](https://www.brainscience-union.jp/)
 * [Japanease Neural Network Society](https://jnns.org/)
+
