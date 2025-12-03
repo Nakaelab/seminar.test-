@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Brain Seminar</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           CSS Styles (デザイン設定)
+           ========================================= */
+
+        /* --- 1. 変数定義（色やサイズ） --- */
+        :root {
+            --primary: #1e293b;       /* 深いネイビー（文字色・メイン） */
+            --accent: #2563eb;        /* 知的なブルー（リンク・ボタン） */
+            --accent-hover: #1d4ed8;  /* ボタンホバー時 */
+            --bg-body: #f8fafc;       /* 背景の薄いグレー */
+            --bg-card: #ffffff;       /* カードの背景白 */
+            --border: #e2e8f0;        /* 薄い枠線 */
+            --nav-height: 70px;       /* メニューバーの高さ */
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* 優しい影 */
+        }
+
+        /* --- 2. 基本設定 --- */
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--primary);
+            margin: 0;
+            line-height: 1.7;
+            padding-top: var(--nav-height); /* メニューバーの分だけコンテンツを下げる */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        p { margin-top: 0; }
+
+        /* --- 3. ナビゲーションバー --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95); /* すりガラス風 */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent);
+        }
+
+        /* 登録ボタンのデザイン */
+        .btn-register {
+            background-color: var(--accent);
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 99px;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-register:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        /* --- 4. メインレイアウト --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* ヒーローセクション（ページタイトル） */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero p {
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* セクション見出し */
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 4px solid var(--accent);
+            display: flex;
+            align-items: center;
+        }
+
+        /* --- 5. セミナーカード --- */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 日付バッジ */
+        .badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            line-height: 1.3;
+        }
+
+        .speaker {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .speaker::before {
+            content: "🎤";
+            margin-right: 0.5rem;
+        }
+
+        .info-row {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .abstract {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f1f5f9;
+            font-size: 1rem;
+            color: #475569;
+            line-height: 1.7;
+        }
+
+        /* アーカイブへのリンクエリア */
+        .archive-link {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            border: 1px dashed var(--border);
+        }
+
+        /* --- 6. フッター --- */
+        footer {
+            background: #fff;
+            border-top: 1px solid var(--border);
+            padding: 4rem 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .footer-col h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            margin: 0 0 1.2rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eff6ff;
+            display: inline-block;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.8rem;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        /* --- モバイル対応 --- */
+        @media (max-width: 768px) {
+            .navbar { padding: 0 1.5rem; }
+            /* モバイルではメニューリンクを非表示（必要ならJSで開閉を実装） */
+            .nav-links { display: none; } 
+            .hero h1 { font-size: 2rem; }
+            .card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">🧠 Digital Brain Seminar</a>
+        <div class="nav-links">
+            <a href="index.html" class="active">Upcoming</a>
+            <a href="archive.html">Past Seminars</a>
+            <a href="https://www.youtube.com/@digitalbrainproject" target="_blank">YouTube</a>
+            <a href="#" class="btn-register">Register</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <section class="hero">
+            <h1>Building the Digital Brain</h1>
+            <p>
+                A seminar series bringing together experts in structural, dynamic, and functional brain reconstruction.<br>
+                All seminars are online or hybrid.
+            </p>
+        </section>
+
+        <section>
+            <h2>📅 Upcoming Seminar</h2>
+            
+            <article class="card">
+                <div class="badge">2025/12/10 Wed 14:30-16:30 (JST)</div>
+                <h3 class="card-title">Revisiting Sperry in the Age of Connectomics: Genetic Rules of Brain-Wide Wiring</h3>
+                
+                <div class="speaker">Honda Naoki (Nagoya University)</div>
+                <div class="info-row">Place: Zoom (The registered page is above)</div>
+
+                <div class="abstract">
+                    <p><strong>Abstract:</strong> Understanding how brain-wide neural circuits are genetically organized remains one of the fundamental challenges in neuroscience. Roger Sperry's classical chemoaffinity theory proposed that molecular gradients provide positional cues for axonal wiring, yet its application has been largely limited to localized sensory systems. Here, we introduce SPERRFY (Spatial Positional Encoding for Reconstructing Rules of axonal Fiber connectivitY), a data-driven framework to examine whether Sperry's concept can be generalized to the entire brain.</p>
+                </div>
+            </article>
+
+            <div class="archive-link">
+                <p>Looking for previous talks?</p>
+                <a href="archive.html" class="btn-register" style="background-color: transparent; color: var(--accent) !important; border: 1px solid var(--accent);">View Past Seminars Archive &rarr;</a>
+            </div>
+
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Organizers</h3>
+                <ul>
+                    <li><strong>Ken Nakae</strong> (ExCELLS)</li>
+                    <li><strong>Daisuke Tagami</strong> (Kyushu University)</li>
+                    <li><strong>Kenji Doya</strong> (OIST)</li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Sponsors</h3>
+                <ul>
+                    <li>Japan Agency for Medical Research and Development (AMED)</li>
+                    <li>Mathematics for Industry Platform (MfIP)</li>
+                    <li>Grant-in-Aid for Transformative Research Areas, MEXT</li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Supported by</h3>
+                <ul>
+                    <li>International Brain Initiative (IBI)</li>
+                    <li>Union of Brain Science Associations in Japan</li>
+                    <li>Japanese Neural Network Society</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; Digital Brain Project
+        </div>
+    </footer>
+
+</body>
+</html>
