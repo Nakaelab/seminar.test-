@@ -18,6 +18,7 @@
             --primary: #1e293b;
             --accent: #2563eb;
             --accent-hover: #1d4ed8;
+            --youtube-red: #FF0000;
             --bg-body: #f8fafc;
             --bg-card: #ffffff;
             --border: #e2e8f0;
@@ -100,7 +101,7 @@
             transform: translateY(-1px);
         }
 
-        /* ★追加：ハンバーガーボタンのデザイン（PCでは非表示） */
+        /* ハンバーガーボタン */
         .hamburger {
             display: none;
             cursor: pointer;
@@ -118,13 +119,13 @@
             transition: all 0.3s ease;
         }
 
-        /* --- ヒーローセクション（背景画像） --- */
+        /* --- ヒーローセクション --- */
         .hero {
             text-align: center;
             margin-bottom: 4rem;
             padding: 6rem 1.5rem; 
             border-bottom: 1px solid var(--border);
-            /* 画像設定 */
+            /* 背景画像の指定 (DigitalBrainSeminar.jpeg) */
             background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), 
                         url('DigitalBrainSeminar.jpeg');
             background-size: cover;
@@ -164,6 +165,7 @@
             align-items: center;
         }
 
+        /* --- セミナーカード --- */
         .card {
             background: var(--bg-card);
             border-radius: 12px;
@@ -190,7 +192,58 @@
         .speaker::before { content: "🎤"; margin-right: 0.5rem; }
         .info-row { font-size: 0.95rem; color: #64748b; margin-bottom: 1.5rem; }
         .abstract { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #f1f5f9; font-size: 1rem; color: #475569; line-height: 1.7; }
+        
         .archive-link { text-align: center; margin-top: 4rem; padding: 2rem; background: white; border-radius: 12px; border: 1px dashed var(--border); }
+
+        /* --- YouTube埋め込み用スタイル --- */
+        .youtube-section {
+            margin-top: 4rem;
+            background: #0f172a; /* シアター風の暗い背景 */
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            color: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .youtube-section h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        /* 動画のレスポンシブ対応 */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .channel-link {
+            display: block;
+            text-align: right;
+            margin-top: 1rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .channel-link:hover {
+            color: white;
+            text-decoration: underline;
+        }
 
         footer { background: #fff; border-top: 1px solid var(--border); padding: 4rem 1.5rem; margin-top: 4rem; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; max-width: 1000px; margin: 0 auto; }
@@ -199,45 +252,34 @@
         .footer-col li { margin-bottom: 0.8rem; }
         .copyright { text-align: center; margin-top: 4rem; font-size: 0.8rem; color: #94a3b8; }
 
-        /* =========================================
-           ★モバイル対応 (ここを大きく変更)
-           ========================================= */
         @media (max-width: 768px) {
             .navbar { padding: 0 1.5rem; }
             .hero h1 { font-size: 2rem; }
             .card { padding: 1.5rem; }
+            .youtube-section { padding: 2rem 1rem; }
 
-            /* ハンバーガーを表示 */
-            .hamburger {
-                display: flex;
-            }
+            .hamburger { display: flex; }
 
-            /* ナビリンクをスマホ用スタイルに変更 */
             .nav-links {
                 position: absolute;
                 top: var(--nav-height);
                 left: 0;
                 width: 100%;
                 background: white;
-                flex-direction: column; /* 縦並び */
+                flex-direction: column;
                 align-items: center;
                 gap: 2rem;
                 padding: 2rem 0;
                 border-bottom: 1px solid var(--border);
                 box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-                
-                /* デフォルトは隠す */
                 display: none; 
             }
-
-            /* JavaScriptで .active クラスがついたら表示 */
             .nav-links.active {
                 display: flex;
                 animation: slideDown 0.3s ease forwards;
             }
         }
 
-        /* メニューが開くときのアニメーション */
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -258,7 +300,7 @@
         <div class="nav-links" id="nav-links">
             <a href="index.html" class="active">Upcoming</a>
             <a href="archive.html">Past Seminars</a>
-            <a href="https://www.youtube.com/@digitalbrainproject" target="_blank">YouTube</a>
+            <a href="https://www.youtube.com/@kennakae2779/videos" target="_blank">YouTube</a>
             <a href="#" class="btn-register">Register</a>
         </div>
     </nav>
@@ -294,7 +336,25 @@
                 <a href="archive.html" class="btn-register" style="background-color: transparent; color: var(--accent) !important; border: 1px solid var(--accent);">View Past Seminars Archive &rarr;</a>
             </div>
 
-        </section>
+            <div class="youtube-section">
+                <h3>🎥 Featured Seminar</h3>
+                
+                <div class="video-wrapper">
+                    <iframe 
+                        width="560" 
+                        height="315" 
+                        src="https://www.youtube.com/embed/L0uATpNPuT0?rel=0" 
+                        title="YouTube video player" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <a href="https://www.youtube.com/@kennakae2779/videos" target="_blank" class="channel-link">
+                    View more videos on Channel &rarr;
+                </a>
+            </div>
+            </section>
     </div>
 
     <footer>
