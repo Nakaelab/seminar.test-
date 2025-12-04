@@ -122,10 +122,9 @@
         /* --- ヒーローセクション --- */
         .hero {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 0; /* 下の要素とくっつけるためにマージンを削除 */
             padding: 6rem 1.5rem; 
             border-bottom: 1px solid var(--border);
-            /* 背景画像の指定 (DigitalBrainSeminar.jpeg) */
             background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), 
                         url('DigitalBrainSeminar.jpeg');
             background-size: cover;
@@ -154,6 +153,40 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 0 1.5rem 3rem 1.5rem; 
+        }
+
+        /* ★追加：CTA(Call To Action)セクションのスタイル */
+        .cta-section {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 3rem;
+            background-color: white; /* 背景を白にして少し区切る */
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            color: #475569;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .btn-cta-large {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 1rem 3rem;
+            border-radius: 99px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-cta-large:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.5);
         }
 
         h2 {
@@ -198,7 +231,7 @@
         /* --- YouTube埋め込み用スタイル --- */
         .youtube-section {
             margin-top: 4rem;
-            background: #0f172a; /* シアター風の暗い背景 */
+            background: #0f172a; 
             padding: 3rem 2rem;
             border-radius: 16px;
             color: white;
@@ -212,7 +245,6 @@
             color: white;
         }
 
-        /* 動画のレスポンシブ対応 */
         .video-wrapper {
             position: relative;
             padding-bottom: 56.25%; /* 16:9 */
@@ -315,6 +347,15 @@
         </div>
     </section>
 
+    <div class="cta-section">
+        <div class="container" style="padding-bottom: 0;">
+            <p class="cta-text">
+                Seminars are open to all researchers and students.<br>
+                Please register to receive the Zoom link and future updates.
+            </p>
+            <a href="#" class="btn-cta-large">Register for Seminar</a>
+        </div>
+    </div>
     <div class="container">
         <section>
             <h2>📅 Upcoming Seminar</h2>
@@ -354,7 +395,8 @@
                     View more videos on Channel &rarr;
                 </a>
             </div>
-            </section>
+
+        </section>
     </div>
 
     <footer>
