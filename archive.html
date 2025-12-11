@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="archive.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
 <body>
@@ -37,6 +38,7 @@
     </nav>
 
     <section class="archive-hero">
+        <canvas id="hero-canvas"></canvas>
         <div class="container">
             <h1>Past Seminars</h1>
             <p>Archive of past seminars. Click on a card to view details.</p>
@@ -612,6 +614,117 @@
 
         // Initialize: show 2025, hide 2024
         document.getElementById('year-2024').style.display = 'none';
+    </script>
+
+    <!-- Three.js Neural Network Animation -->
+    <script>
+        (function () {
+            const canvas = document.getElementById('hero-canvas');
+            const heroSection = document.querySelector('.archive-hero');
+
+            if (!canvas || !heroSection) return;
+
+            // Scene setup
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, heroSection.offsetWidth / heroSection.offsetHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+            renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Particles
+            const particleCount = 80;
+            const particles = [];
+            const particleGeometry = new THREE.SphereGeometry(0.08, 8, 8);
+            const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+                particle.position.x = (Math.random() - 0.5) * 15;
+                particle.position.y = (Math.random() - 0.5) * 8;
+                particle.position.z = (Math.random() - 0.5) * 8;
+                particle.velocity = {
+                    x: (Math.random() - 0.5) * 0.01,
+                    y: (Math.random() - 0.5) * 0.01,
+                    z: (Math.random() - 0.5) * 0.01
+                };
+                particles.push(particle);
+                scene.add(particle);
+            }
+
+            // Lines connecting particles
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 });
+            let linesMesh = null;
+
+            function updateLines() {
+                if (linesMesh) scene.remove(linesMesh);
+
+                const positions = [];
+                const maxDistance = 3;
+
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const distance = particles[i].position.distanceTo(particles[j].position);
+                        if (distance < maxDistance) {
+                            positions.push(particles[i].position.x, particles[i].position.y, particles[i].position.z);
+                            positions.push(particles[j].position.x, particles[j].position.y, particles[j].position.z);
+                        }
+                    }
+                }
+
+                const geometry = new THREE.BufferGeometry();
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+                linesMesh = new THREE.LineSegments(geometry, lineMaterial);
+                scene.add(linesMesh);
+            }
+
+            camera.position.z = 8;
+
+            // Mouse interaction
+            let mouseX = 0, mouseY = 0;
+            heroSection.addEventListener('mousemove', (e) => {
+                const rect = heroSection.getBoundingClientRect();
+                mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+                mouseY = -((e.clientY - rect.top) / rect.height - 0.5) * 2;
+            });
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Move particles
+                particles.forEach(particle => {
+                    particle.position.x += particle.velocity.x;
+                    particle.position.y += particle.velocity.y;
+                    particle.position.z += particle.velocity.z;
+
+                    // Boundary check
+                    if (Math.abs(particle.position.x) > 7.5) particle.velocity.x *= -1;
+                    if (Math.abs(particle.position.y) > 4) particle.velocity.y *= -1;
+                    if (Math.abs(particle.position.z) > 4) particle.velocity.z *= -1;
+                });
+
+                // Update lines every few frames for performance
+                if (Math.random() > 0.9) updateLines();
+
+                // Camera follows mouse slightly
+                camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.02;
+                camera.position.y += (mouseY * 0.3 - camera.position.y) * 0.02;
+                camera.lookAt(0, 0, 0);
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+            updateLines();
+
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = heroSection.offsetWidth / heroSection.offsetHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
+            });
+        })();
     </script>
 
 </body>
